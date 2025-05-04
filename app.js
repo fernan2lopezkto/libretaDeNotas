@@ -6,6 +6,7 @@ const display = document.getElementById("display");
 const displayTitle = document.getElementById("displayTitle");
 const displayChords = document.getElementById("displayChords");
 const editBtn = document.getElementById("editBtn");
+const deleteBtn = document.getElementById("deleteBtn");
 
 let songs = JSON.parse(localStorage.getItem("songs") || "{}");
 let currentSong = null;
@@ -23,6 +24,7 @@ function renderSongList() {
       const a = document.createElement("a");
       a.href = "#";
       a.textContent = name;
+      a.classList.add("hover:text-success");
       a.onclick = () => showSong(name);
       li.appendChild(a);
       songList.appendChild(li);
@@ -32,7 +34,7 @@ function renderSongList() {
 function showSong(name) {
   currentSong = name;
   displayTitle.textContent = name;
-  displayChords.textContent = songs[name]; // preserva saltos de línea
+  displayChords.textContent = songs[name];
   display.classList.remove("hidden");
 }
 
@@ -54,6 +56,16 @@ editBtn.onclick = () => {
     songNameInput.value = currentSong;
     chordsInput.value = songs[currentSong];
     display.classList.add("hidden");
+  }
+};
+
+deleteBtn.onclick = () => {
+  if (currentSong && confirm(`¿Eliminar "${currentSong}"?`)) {
+    delete songs[currentSong];
+    saveSongs();
+    renderSongList();
+    display.classList.add("hidden");
+    currentSong = null;
   }
 };
 
