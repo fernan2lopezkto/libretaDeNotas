@@ -3,54 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Progresiones de Acordes</title>
+    <title>Libreta de Notas</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.4.20/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              neon: "#39ff14",
-              fondo: "#111827",
-            },
-          },
-        },
-      };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/daisyui"></script>
   </head>
-  <body class="bg-fondo text-neon min-h-screen p-4">
-    <div class="max-w-xl mx-auto">
-      <h1 class="text-3xl font-bold mb-4 text-success">Mis Progresiones</h1>
+  <body class="bg-black text-white min-h-screen p-4">
+    <main class="max-w-xl mx-auto space-y-4">
+      <h1 class="text-2xl font-bold text-center">Libreta de Progresiones</h1>
 
-      <div class="mb-4">
-        <input id="songName" type="text" placeholder="Nombre de la canción"
-          class="input input-bordered w-full mb-2 text-neon bg-gray-900 placeholder-gray-400" />
-        <textarea id="chords" rows="6"
-          class="textarea textarea-bordered w-full text-neon bg-gray-900 placeholder-gray-400"
-          placeholder="Progresión de acordes (una por línea)"></textarea>
-        <button id="saveBtn" class="btn btn-success w-full mt-2">Guardar Canción</button>
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Buscar canción..."
+        class="input input-bordered w-full bg-gray-800 text-white"
+      />
+
+      <div class="mb-4 flex flex-col gap-2">
+        <button id="exportBtn" class="btn btn-outline btn-accent w-full">
+          Exportar como .txt
+        </button>
+
+        <input
+          id="importInput"
+          type="file"
+          accept=".txt"
+          class="file-input file-input-bordered w-full bg-gray-800 text-white"
+        />
       </div>
 
-      <div class="mb-4">
-        <input id="searchInput" type="text" placeholder="Buscar canción..."
-          class="input input-bordered w-full text-neon bg-gray-800 placeholder-gray-400" />
-      </div>
+      <input
+        id="songName"
+        type="text"
+        placeholder="Nombre de la canción"
+        class="input input-bordered w-full bg-gray-800 text-white"
+      />
+      <textarea
+        id="chords"
+        rows="5"
+        placeholder="Progresión de acordes"
+        class="textarea textarea-bordered w-full bg-gray-800 text-white"
+      ></textarea>
+      <button id="addBtn" class="btn btn-success w-full">Agregar / Actualizar</button>
 
-      <div class="divider text-white">Canciones Guardadas</div>
+      <div class="divider">Canciones guardadas</div>
+      <ul id="songList" class="space-y-2"></ul>
+    </main>
 
-      <ul id="songList" class="menu bg-neutral w-full rounded-box"></ul>
-
-      <div id="display" class="mt-4 hidden">
-        <h2 class="text-xl font-bold mb-2" id="displayTitle"></h2>
-        <pre id="displayChords" class="bg-neutral text-white p-3 rounded mb-2 whitespace-pre-wrap"></pre>
-        <div class="flex gap-2">
-          <button id="editBtn" class="btn btn-warning">Editar</button>
-          <button id="deleteBtn" class="btn btn-error">Eliminar</button>
-        </div>
-      </div>
-    </div>
+    <!-- Contenedor de toasts -->
+    <div id="toastContainer" class="toast toast-top toast-end"></div>
 
     <script src="app.js" defer></script>
   </body>
