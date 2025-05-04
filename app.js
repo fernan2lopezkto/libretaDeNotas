@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const chordsInput = document.getElementById("chords");
   const saveBtn = document.getElementById("saveBtn");
   const songList = document.getElementById("songList");
+  const searchInput = document.getElementById("searchInput");
   const display = document.getElementById("display");
   const displayTitle = document.getElementById("displayTitle");
   const displayChords = document.getElementById("displayChords");
@@ -16,9 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("songs", JSON.stringify(songs));
   }
 
-  function renderSongList() {
+  function renderSongList(filter = "") {
     songList.innerHTML = "";
     Object.keys(songs)
+      .filter(name => name.toLowerCase().includes(filter.toLowerCase()))
       .sort()
       .forEach((name) => {
         const li = document.createElement("li");
@@ -45,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name && chords) {
       songs[name] = chords;
       saveSongs();
-      renderSongList();
+      renderSongList(searchInput.value);
       songNameInput.value = "";
       chordsInput.value = "";
       display.classList.add("hidden");
@@ -64,11 +66,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentSong && confirm(`¿Eliminar "${currentSong}"?`)) {
       delete songs[currentSong];
       saveSongs();
-      renderSongList();
+      renderSongList(searchInput.value);
       display.classList.add("hidden");
       currentSong = null;
     }
   };
+
+  searchInput.addEventListener("input", () => {
+    renderSongList(searchInput.value);
+  });
 
   renderSongList();
 });
