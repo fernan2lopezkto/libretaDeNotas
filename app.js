@@ -32,7 +32,7 @@ function renderSongList() {
 function showSong(name) {
   currentSong = name;
   displayTitle.textContent = name;
-  displayChords.textContent = songs[name];
+  displayChords.textContent = songs[name]; // preserva saltos de línea
   display.classList.remove("hidden");
 }
 
@@ -45,6 +45,7 @@ saveBtn.onclick = () => {
     renderSongList();
     songNameInput.value = "";
     chordsInput.value = "";
+    display.classList.add("hidden");
   }
 };
 
