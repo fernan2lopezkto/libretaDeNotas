@@ -3,6 +3,9 @@ const chordsInput = document.getElementById("chords");
 const addBtn = document.getElementById("addBtn");
 const songList = document.getElementById("songList");
 const searchInput = document.getElementById("searchInput");
+const exportBtn = document.getElementById("exportBtn");
+const importInput = document.getElementById("importInput");
+const clearAllBtn = document.getElementById("clearAllBtn");
 
 let songs = JSON.parse(localStorage.getItem("songs") || "{}");
 
@@ -72,8 +75,7 @@ searchInput.addEventListener("input", (e) => {
   renderSongList(filter);
 });
 
-// EXPORTAR A .TXT
-document.getElementById("exportBtn").onclick = () => {
+exportBtn.onclick = () => {
   const all = Object.entries(songs)
     .map(([name, chords]) => `${name}\n${chords}\n---`)
     .join("\n");
@@ -89,8 +91,7 @@ document.getElementById("exportBtn").onclick = () => {
   showToast("Exportación completada", "success");
 };
 
-// IMPORTAR .TXT
-document.getElementById("importInput").addEventListener("change", function () {
+importInput.addEventListener("change", function () {
   const file = this.files[0];
   if (!file) return;
 
@@ -124,7 +125,15 @@ document.getElementById("importInput").addEventListener("change", function () {
   reader.readAsText(file);
 });
 
-// TOASTS
+clearAllBtn.onclick = () => {
+  if (confirm("¿Estás seguro de que querés borrar todas las canciones?")) {
+    localStorage.removeItem("songs");
+    songs = {};
+    renderSongList();
+    showToast("Todas las canciones fueron eliminadas", "error");
+  }
+};
+
 function showToast(message, type = "info") {
   const container = document.getElementById("toastContainer");
   const div = document.createElement("div");
@@ -134,5 +143,4 @@ function showToast(message, type = "info") {
   setTimeout(() => div.remove(), 3000);
 }
 
-// Inicial
 renderSongList();
